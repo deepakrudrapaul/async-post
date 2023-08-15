@@ -1,0 +1,14 @@
+<div class="drawer lg:drawer-open">
+    <input id="my-drawer-2" type="checkbox" class="drawer-toggle" />
+    <div class="drawer-content h-full">
+      <app-nav-bar *ngIf="isLoggedIn" (logout)="logout()" title={{title}}/>
+      <router-outlet></router-outlet>
+    </div> 
+    <div class="drawer-side" *ngIf="isLoggedIn">
+      <label for="my-drawer-2" class="drawer-overlay"></label> 
+      <ul class="menu p-4 w-80 h-full bg-base-200 text-base-content">
+        <li *ngFor="let item of navItems" [routerLink]="[item.link]" routerLinkActive="router-link-active" ><a>{{item.text}}</a></li>
+      </ul>
+    
+    </div>
+  </div>
