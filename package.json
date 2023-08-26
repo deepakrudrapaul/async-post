@@ -28,6 +28,7 @@
     "@ng-icons/core": "^25.2.0",
     "@ng-icons/material-icons": "^25.2.0",
     "@nx/angular": "^16.4.0",
+    "@supabase/supabase-js": "^2.32.0",
     "front-matter": "^4.0.2",
     "marked": "^5.0.2",
     "marked-gfm-heading-id": "^3.0.4",

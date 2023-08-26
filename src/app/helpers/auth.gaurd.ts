@@ -5,8 +5,12 @@ import { AuthService } from "../services/auth.service";
 export const authGaurd = (next: ActivatedRouteSnapshot) => {
     const authService: AuthService = inject(AuthService);
     const router = inject(Router);
-    if(authService.isLoggedIn) {
+
+    if(authService.getSession()) {
         return true;
     }
-    return router.parseUrl("/login");
+
+    router.navigate(['/login'])
+    return false;
+    
 }

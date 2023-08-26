@@ -1,16 +1,16 @@
 import { Component, inject } from '@angular/core';
-import { ActivatedRoute, NavigationEnd, Router, RouterLink, RouterOutlet, RouterStateSnapshot } from '@angular/router';
-import { Location, NgFor, NgIf } from "@angular/common";
+import { NavigationEnd, Router, RouterLink, RouterOutlet, RouterStateSnapshot } from '@angular/router';
+import { AsyncPipe, NgFor, NgIf } from "@angular/common";
 import { AppConstants } from "./utils/app-constants";
 import { NavBarComponent } from "./components/nav-bar/nav-bar.component";
 import { Title } from "@angular/platform-browser";
-import { delay, filter } from "rxjs";
+import { Observable, delay, filter } from "rxjs";
 import { AuthService } from "./services/auth.service";
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, NgFor, RouterLink, NavBarComponent, NgIf],
+  imports: [RouterOutlet, NgFor, RouterLink, NavBarComponent, NgIf, AsyncPipe],
   templateUrl: './app.component.html',
 
 })
@@ -18,7 +18,7 @@ export class AppComponent {
   navItems:NavItem[]= AppConstants.NavItems;
   titleService = inject(Title);
   authService = inject(AuthService);
-  isLoggedIn = false;
+  isLoggedIn$!: Observable<boolean>;
   router = inject(Router);
   title:string = "";
 
@@ -28,9 +28,18 @@ export class AppComponent {
       .subscribe(() => {
         this.title = this.titleService.getTitle()
       })
-      this.isLoggedIn = this.authService.isLoggedIn;
-
-  }
+      this.isLoggedIn$ = this.authService.isLoggedIn();
+      this.checkIfLoggedIn();
+    }
+    
+    
+    
+    checkIfLoggedIn() {
+      if(this.authService.getSession()) {
+        this.authService.loggedIn.next(true);
+      }
+    }
+  
 
 
   logout() {
