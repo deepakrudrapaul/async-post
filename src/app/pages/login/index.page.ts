@@ -39,6 +39,16 @@ export default class LoginComponent {
   }
 
 
+
+
+
+  handleSocialLogin(provider:string) {
+    this.authService.socialLogin(provider).subscribe(resp => {
+      
+    });
+  }
+
+
   handleSubmit(form: NgForm) {
     this.isLoading = true;
     const {email, password } = form.value;
