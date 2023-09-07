@@ -1,69 +1,57 @@
 <div>
   <h3 class="font-bold text-lg">Add Post</h3>
-  <form class="my-4 bg-white rounded-lg shadow-md p-4">
-    <div class="flex gap-2 my-2">
+  <form
+    ngNativeValidate
+    #form="ngForm"
+    (ngSubmit)="handleSubmit(form)"
+    class="my-4 bg-white rounded-lg shadow-xs p-4"
+  >
+    <div *ngFor="let item of postForm.post; let i = index;" class="flex gap-2 my-2">
       <div class="flex flex-col items-center gap-2">
         <img
-        src="https://pbs.twimg.com/profile_images/1684113760821329920/PVTF1g55_400x400.jpg"
-        alt="Profile Image"
-        class="w-12 h-12 rounded-full"
-      />
+          src="https://pbs.twimg.com/profile_images/1684113760821329920/PVTF1g55_400x400.jpg"
+          alt="Profile Image"
+          class="w-12 h-12 rounded-full"
+        />
 
-      <div class="bg-gray-200 w-[2px] h-full"></div>
+        <div class="bg-gray-200 w-[2px] h-full"></div>
       </div>
 
       <div class="flex w-full flex-col">
-
         <div class="flex gap-2">
           <h2 class="font-bold text-base">John Doe</h2>
           <p class="text-gray-600">@johndoe</p>
         </div>
 
         <textarea
-          placeholder="What is happening ?"
-          maxlength="280"
-          [rows]="5"
-          class="textarea p-0 textarea-ghost textarea-lg w-full focus:outline-none"
-        ></textarea>
-
-        
-      </div>
-    </div>
-    <div class="flex gap-2">
-      <div class="flex flex-col items-center">
-        <img
-        src="https://pbs.twimg.com/profile_images/1684113760821329920/PVTF1g55_400x400.jpg"
-        alt="Profile Image"
-        class="w-12 h-12 rounded-full"
-      />
-
-      <div class="bg-gray-200 w-[2px] h-full"></div>
-      </div>
-
-      <div class="flex w-full flex-col">
-
-        <div class="flex gap-2">
-          <h2 class="font-bold text-base">John Doe</h2>
-          <p class="text-gray-600">@johndoe</p>
-        </div>
-
-        <textarea
+          name="content-{{i}}"
+          [(ngModel)]="item.content"
           placeholder="What is happening ?"
           maxlength="280"
           [rows]="5"
           class="textarea p-0 textarea-ghost textarea-lg w-full focus:outline-none"
         ></textarea>
       </div>
+
+      <button
+        [ngClass]="item.content.length && postForm.post.length > 1 ? 'visible': 'invisible'"
+        (click)="removePost(i)"
+        type="button"
+        class="btn btn-sm btn-square"
+      >
+        <ng-icon size="20" name="matCloseOutline"></ng-icon>
+      </button>
     </div>
+
     <div>
       <div class="flex justify-between pt-2">
         <button type="button" class="btn btn-sm btn-square">
           <ng-icon size="20" name="matAddAPhotoOutline"></ng-icon>
         </button>
 
-        <button type="button" class="btn btn-sm">
+        <button (click)="addPost()" type="button" class="btn btn-sm">
           <ng-icon size="20" name="matAddCircleOutlineOutline"></ng-icon>
-          Add
+          Add Post
         </button>
       </div>
     </div>
