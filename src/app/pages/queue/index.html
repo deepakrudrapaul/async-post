@@ -1,0 +1,54 @@
+<div>
+  <div class="flex justify-between p-4">
+    <div class="form-control">
+      <input
+        type="text"
+        placeholder="Search"
+        class="input input-bordered w-24 md:w-auto"
+      />
+    </div>
+
+    <div>
+      <button
+        (click)="dialog.showModal()"
+        routerLinkActive="router-link-active"
+        class="btn btn-primary"
+      >
+        Add Post
+      </button>
+    </div>
+  </div>
+  <table class="table table-pin-rows">
+    <ng-container *ngFor="let item of datesArray; let i = index">
+      <thead id="index">
+        <tr>
+          <th>{{item.date}}</th>
+        </tr>
+      </thead>
+      <tbody *ngFor="let time of item.time">
+        <tr><td>{{time}}</td></tr>
+      </tbody>
+    </ng-container>
+  </table>
+</div>
+
+<dialog #dialog class="modal">
+  <div class="modal-box w-11/12 max-w-2xl bg-gray-100 ">
+    <button
+      (click)="dialog.close()"
+      class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">
+      ✕
+    </button>
+
+    <div class="flex">
+        <app-post-form class="w-full"/>
+    </div>
+
+    <div class="modal-action">
+   
+      <button type="button" class="btn btn-primary">
+        Schedule
+      </button>
+    </div>
+  </div>
+</dialog>
