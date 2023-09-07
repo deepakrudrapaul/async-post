@@ -6,6 +6,7 @@ import { NavBarComponent } from "./components/nav-bar/nav-bar.component";
 import { Title } from "@angular/platform-browser";
 import { Observable, delay, filter } from "rxjs";
 import { AuthService } from "./services/auth.service";
+import { NavItem } from "./utils/models/nav-item";
 
 @Component({
   selector: 'app-root',

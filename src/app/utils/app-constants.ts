@@ -3,10 +3,22 @@ export const AppConstants = {
     SESSION: "session",
     USER: "user",
     API_VERSION: "api/v1",
+    TWITTER:'twitter',
+    ACCESS_TOKEN: "access_token",
+    REFRESH_TOKEN: "refresh_token",
+    TOKEN_TYPE: "token_type",
     NavItems: [
         {
             text:'Dashboard',
             link: '/',
+        },
+        {
+            text:'Queue',
+            link: '/queue',
+        },
+        {
+            text:'Drafts',
+            link: '/drafts',
         },
         {
             text:'Posts',
