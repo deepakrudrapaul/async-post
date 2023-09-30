@@ -19,7 +19,7 @@ export class AppComponent {
   navItems:NavItem[]= AppConstants.NavItems;
   titleService = inject(Title);
   authService = inject(AuthService);
-  isLoggedIn$!: Observable<boolean>;
+  user$!:Observable<any>;
   router = inject(Router);
   title:string = "";
 
@@ -29,7 +29,7 @@ export class AppComponent {
       .subscribe(() => {
         this.title = this.titleService.getTitle()
       })
-      this.isLoggedIn$ = this.authService.isLoggedIn();
+      this.user$ = this.authService.isLoggedIn();
       this.checkIfLoggedIn();
     }
     
@@ -37,7 +37,7 @@ export class AppComponent {
     
     checkIfLoggedIn() {
       if(this.authService.getSession()) {
-        this.authService.loggedIn.next(true);
+        this.authService.user.next(this.authService.getUser());
       }
     }
   

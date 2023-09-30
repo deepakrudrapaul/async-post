@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { Router } from '@angular/router';
-import { BehaviorSubject, map, timer } from 'rxjs';
+import { BehaviorSubject, map, mergeMap, timer } from 'rxjs';
 import { AppConstants } from '../utils/app-constants';
 import { LocalStorageService } from "./local-storage.service";
 import { Session } from "../utils/models/session";
@@ -11,7 +11,7 @@ interface User {}
   providedIn: 'root',
 })
 export class AuthService {
-  loggedIn = new BehaviorSubject<boolean>(false);
+  user = new BehaviorSubject<any>(null);
   private http = inject(HttpClient);
   private storageService = inject(LocalStorageService);
   private router = inject(Router);
@@ -23,7 +23,7 @@ export class AuthService {
   constructor() {}
 
   isLoggedIn() {
-    return this.loggedIn.asObservable();
+    return this.user.asObservable();
   }
 
   getSession() {
@@ -52,7 +52,7 @@ export class AuthService {
         this.setSession(resp.session);
         this.setUser(resp.user);
         this.router.navigate(['/']);
-        this.loggedIn.next(true);
+        this.user.next(resp.user);
         return resp;
       })
     );
@@ -91,8 +91,13 @@ export class AuthService {
           let session:Session;
           session = { access_token: accessToken, refresh_token: refreshToken, token_type: type };
           this.setSession(session);
-          this.router.navigate(['/']);
-          this.loggedIn.next(true);
+
+          this.getUserProfile().subscribe((resp:any)=> {
+            this.setUser(resp.user);
+            this.router.navigate(['/']);
+            this.user.next(resp.user);
+          });
+           
           handleWindow?.close();
           subscription.unsubscribe();
         }
@@ -109,8 +114,12 @@ export class AuthService {
     )
   }
 
+  getUserProfile() {
+    return this.http.get(`${this.baseUrl}/user`);
+  }
+
   logout() {
-    this.loggedIn.next(false);
+    this.user.next(null);
     this.storageService.clearAll();
     this.router.navigate(['/login']);
   }

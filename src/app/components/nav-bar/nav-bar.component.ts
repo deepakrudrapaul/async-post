@@ -1,7 +1,6 @@
 import { Component, EventEmitter, Input, Output, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { AppConstants } from "../../utils/app-constants";
-import { ActivatedRoute } from "@angular/router";
+
 
 @Component({
   selector: 'app-nav-bar',
@@ -13,6 +12,7 @@ import { ActivatedRoute } from "@angular/router";
 export class NavBarComponent {
 
 
+  @Input() user?: any;
   @Input() title?: string;
   @Output() logout = new EventEmitter();
 
